@@ -69,3 +69,31 @@ void update_sll(struct node *head, int node_num, int val)
         }
     }
 }
+
+struct node* delete_node(struct node* head, int val)
+{
+    if(!head) {
+        return NULL;
+    }
+
+    struct node* temp_node = head;
+    struct node* prev_node = NULL;
+
+    while(temp_node) {
+        if(temp_node->data == val) {
+            if(prev_node != NULL) {
+               prev_node->next = temp_node->next;
+            } else {
+               head = temp_node->next;
+            }
+            free(temp_node);
+            printf("Deleted element %d in sll.\n", val);
+            return head; 
+        }
+        prev_node = temp_node;
+        temp_node = temp_node->next;
+    }
+
+    printf("Didn't find element %d in sll.\n", val);
+    return head;
+}
