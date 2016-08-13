@@ -23,6 +23,7 @@ void free_sll(struct node *head)
     while(head) {
         temp = head;
         head = head->next;
+        free(temp);
     }
 }
 
@@ -96,4 +97,46 @@ struct node* delete_node(struct node* head, int val)
 
     printf("Didn't find element %d in sll.\n", val);
     return head;
+}
+
+struct node* create_sll_r(int num_nodes)
+{
+    if(num_nodes < 1) {
+        return NULL;
+    }
+
+    struct node* temp = (struct node*) malloc(sizeof(struct node));
+    temp->data = num_nodes--;
+    temp->next = create_sll_r(num_nodes);
+    return temp;
+}
+
+void print_sll_r(struct node *head)
+{
+    if(!head) {
+        printf("\n");
+        return;
+    }
+    
+    printf("%d  ", head->data);
+    print_sll_r(head->next);
+}
+
+void print_sll_reverse_r(struct node *head)
+{
+    if(!head) {
+        return;
+    }
+
+    print_sll_reverse_r(head->next);
+    printf("%d  ", head->data);
+}
+
+void free_sll_r(struct node *head)
+{
+    if(!head) return;
+
+    free_sll_r(head->next);
+    printf("Deleting data: %d\n", head->data);
+    free(head);
 }
